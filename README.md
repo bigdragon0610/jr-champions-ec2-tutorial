@@ -23,8 +23,8 @@ AWSコンソールのトップページから「EC2」を検索・選択しま�
 
 「インスタンスを起動」の画面では以下の設定を行います。
 - **名前**: ec2-tutorial
-- **AMI**: Amazon Linux 2023を選択
-- **インスタンスタイプ**: t2.microを選択 (無料利用枠の対象)
+- **AMI**: Amazon Linux 2023 (デフォルトのもの) を選択
+- **インスタンスタイプ**: t3.microを選択 (無料利用枠の対象)
 - **キーペア**
   - キーペア名: ec2-tutorial
   - キーペアのタイプ: RSA
@@ -44,7 +44,9 @@ AWSコンソールのトップページから「EC2」を検索・選択しま�
 
 次に、作成したEC2インスタンスにSSHで接続します。
 
-まずはダウンロードしたキーペアファイル（`ec2-tutorial.pem`）のパーミッションを変更します。以下のコマンドを実行してください。
+まずはダウンロードしたキーペアファイル（`ec2-tutorial.pem`）のパーミッションを変更します。
+
+以下のコマンドをターミナルで実行してください(WSLの場合は、ファイルをWSL上にコピーしてから実行します)。
 
 ```bash
 # パスはダウンロードした場所に応じて変更してください
@@ -109,7 +111,7 @@ sudo systemctl enable nginx --now
 
 nginxのデフォルトページは `/usr/share/nginx/html/index.html` にあります。
 
-vimで `sudo vim /usr/share/nginx/html/index.html` として開くと、以下の記述が見つかるはずです。
+vimで `sudo vim /usr/share/nginx/html/index.html` として開くと、以下の記述が見つかるはずです。(タイトルではなく、h1タグの部分です！)
 
 ```html
 <h1>Welcome to nginx!</h1>
@@ -326,6 +328,24 @@ It works!
 
 ---
 </details>
+
+## 環境の削除
+
+最後に、作成したリソースを削除して環境をクリーンアップします。
+
+- 料金がかかるため削除してほしいもの
+  - nginxのEC2インスタンス `ec2-tutorial`
+  - nginxのEC2インスタンス `ec2-tutorial-2`
+  - ApacheのEC2インスタンス `apache`
+  - ALB `ec2-tutorial-alb`
+- 料金がかからないが削除してほしいもの
+  - ターゲットグループ `ec2-tutorial-targets`
+  - ターゲットグループ `ec2-tutorial-apache-targets`
+  - セキュリティグループ `launch-wizard-1`
+  - セキュリティグループ `launch-wizard-2`
+  - セキュリティグループ `launch-wizard-3`
+  - キーペア `ec2-tutorial`
+
 
 ## まとめ
 
